@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <AssemblyName>JK.Fixed</AssemblyName>
+        <RootNamespace>JK.Fixed</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+
+        <Version>0.0.1</Version>
+        <Description>Library to help reading and writing fixed-width files.</Description>
+        <Tags>fixed-width;flat-file</Tags>
+        <Authors>Jeremy Knight</Authors>
+        <Company>Jeremy Knight</Company>
+        <Copyright>Copyright Jeremy Knight. All rights reserved.</Copyright>
+        <PackageProjectUrl>https://github.com/jeremyknight-me/fixed</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/jeremyknight-me/fixed</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
+
+</Project>
