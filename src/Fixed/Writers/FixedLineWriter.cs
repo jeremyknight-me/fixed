@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-namespace JK.Fixed.Writers;
+﻿namespace JK.Fixed.Writers;
 
 internal sealed class FixedLineWriter : FixedWriterBase
 {
