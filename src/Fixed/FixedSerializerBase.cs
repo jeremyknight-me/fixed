@@ -12,7 +12,7 @@ internal abstract class FixedSerializerBase
         var properties = this.GetFixedColumns(mappingType);
         this.FixedProperties = properties.Length == 0
             ? throw new FixedNotFoundException()
-            : properties.OrderBy(x => x.Attribute.Order).ToArray();
+            : properties.OrderBy(x => x.ColumnOptions.Order).ToArray();
     }
 
     private FixedProperty[] GetFixedColumns(Type type)
@@ -25,7 +25,9 @@ internal abstract class FixedSerializerBase
             select new FixedProperty
             {
                 PropertyInfo = p,
-                Attribute = attributes.Cast<FixedColumnAttribute>().FirstOrDefault()
+                ColumnOptions = attributes.Cast<FixedColumnAttribute>()
+                    .FirstOrDefault()?
+                    .ToOptions()
             };
         return properties.ToArray();
     }
