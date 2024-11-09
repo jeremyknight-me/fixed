@@ -25,14 +25,14 @@ internal sealed class FixedLineReader<T> : FixedReaderBase
             var columnValue = this.GetColumnStringValue(line, linePosition, property);
             var convertedValue = this.ConvertToPropertyType(property, columnValue);
             property.PropertyInfo.SetValue(entity, convertedValue, null);
-            linePosition += property.Attribute.Width;
+            linePosition += property.ColumnOptions.Width;
         }
         return entity;
     }
 
     private string GetColumnStringValue(string line, int linePosition, FixedProperty property)
     {
-        var width = property.Attribute.Width;
+        var width = property.ColumnOptions.Width;
         return linePosition + width > line.Length
             ? line.Substring(linePosition)
             : line.Substring(linePosition, width);
@@ -52,7 +52,7 @@ internal sealed class FixedLineReader<T> : FixedReaderBase
             type = Nullable.GetUnderlyingType(type);
         }
 
-        memberValue = memberValue.Trim(property.Attribute.PaddingCharacter);
+        memberValue = memberValue.Trim(property.ColumnOptions.PaddingCharacter);
         return type switch
         {
             var t when t == typeof(string) => memberValue,
