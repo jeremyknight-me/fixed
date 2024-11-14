@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
         <AssemblyName>JK.Fixed</AssemblyName>
         <RootNamespace>JK.Fixed</RootNamespace>
         <Version>0.0.1</Version>
