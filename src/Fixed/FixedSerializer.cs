@@ -1,12 +1,22 @@
 ﻿using System.Text;
 using JK.Fixed.Extensions;
+using JK.Fixed.Readers;
 using JK.Fixed.Writers;
 
 namespace JK.Fixed;
 
-public static class FixedWriter
+public static class FixedSerializer
 {
-    public static IEnumerable<string> Write<T>(IEnumerable<T> items)
+    public static IEnumerable<T> Deserialize<T>(IEnumerable<string> lines) where T : new()
+    {
+        var parser = new FixedColumnAttributeLineParser<T>();
+        foreach (var line in lines)
+        {
+            yield return parser.Parse(line);
+        }
+    }
+
+    public static IEnumerable<string> Serialize<T>(IEnumerable<T> items)
     {
         var fixedProperties = typeof(T).ToFixedColumnProperties();
         foreach (var item in items)
