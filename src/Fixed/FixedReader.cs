@@ -4,9 +4,12 @@ namespace JK.Fixed;
 
 public static class FixedReader
 {
-    public static IEnumerable<T> FromLines<T>(IEnumerable<string> lines)
+    public static IEnumerable<T> Read<T>(IEnumerable<string> lines) where T : new()
     {
-        var reader = new FixedLineReader<T>();
-        return reader.Read(lines);
+        var parser = new FixedColumnAttributeLineParser<T>();
+        foreach (var line in lines)
+        {
+            yield return parser.Parse(line);
+        }
     }
 }

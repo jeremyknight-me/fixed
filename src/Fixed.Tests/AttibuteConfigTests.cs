@@ -8,7 +8,7 @@ public class AttibuteConfigTests
     public void AttributeConfig_Should_Read_Fixed_Text()
     {
         List<string> lines = ["FalseAB2024-03-201234 4.30"];
-        var items = FixedReader.FromLines<MappedTester>(lines);
+        var items = FixedReader.Read<MappedTester>(lines);
         var item = Assert.Single(items);
         Assert.False(item.One);
         Assert.Equal("AB", item.Two);
@@ -31,8 +31,27 @@ public class AttibuteConfigTests
             }
         ];
 
-        var lines = FixedWriter.ToLines(items);
+        var lines = FixedWriter.Write(items);
         var line = Assert.Single(lines);
         Assert.Equal("FalseAB2024-03-201234 4.30", line);
-    }   
+    }
+
+    [Fact]
+    public void AttributeConfig_NoMap_Should_Write_Fixed_Text()
+    {
+        List<NonMappedTester> items = [
+            new NonMappedTester
+            {
+                One = false,
+                Two = "AB",
+                Three = DateTime.Parse("2024-03-20"),
+                Four = 1234,
+                Five = 4.3m
+            }
+        ];
+
+        var lines = FixedWriter.Write(items);
+        var line = Assert.Single(lines);
+        Assert.Equal("", line);
+    }
 }

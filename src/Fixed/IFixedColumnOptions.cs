@@ -1,4 +1,6 @@
-﻿namespace JK.Fixed;
+﻿using JK.Fixed.Configuration;
+
+namespace JK.Fixed;
 
 public interface IFixedColumnOptions
 {
