@@ -4,6 +4,7 @@
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
+  <Project Path="Fixed.Configuration/Fixed.Configuration.csproj" Id="5f347709-aaa8-4a96-a4d3-175c52662a28" />
   <Project Path="Fixed.Tests/Fixed.Tests.csproj" />
   <Project Path="Fixed/Fixed.csproj" />
 </Solution>
