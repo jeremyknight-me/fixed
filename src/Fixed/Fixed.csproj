@@ -1,20 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <AssemblyName>JK.Fixed</AssemblyName>
-        <RootNamespace>JK.Fixed</RootNamespace>
-        <Version>0.0.1</Version>
-        <Description>A library to aid in reading and writing fixed-width files.</Description>
-        <Tags>fixed-width;flat-file</Tags>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>
+    <AssemblyName>JK.Fixed</AssemblyName>
+    <RootNamespace>JK.Fixed</RootNamespace>
+    <Version>0.0.1</Version>
+    <Description>A library to aid in reading and writing fixed-width files.</Description>
+    <Tags>fixed-width;flat-file</Tags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <None Include="README.md" Pack="true" PackagePath="\" />
-    </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Fixed.Configuration\Fixed.Configuration.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fixed.Configuration\Fixed.Configuration.csproj" />
+  </ItemGroup>
 
 </Project>
