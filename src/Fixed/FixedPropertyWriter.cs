@@ -5,49 +5,49 @@ namespace JK.Fixed;
 
 internal sealed class FixedPropertyWriter
 {
-    private readonly FixedProperty property;
+    private readonly FixedProperty _property;
 
     public FixedPropertyWriter(FixedProperty fixedProperty)
     {
-        this.property = fixedProperty;
+        _property = fixedProperty;
     }
 
     public string Write(object item)
     {
-        var value = this.GetObjectPropertyValue(item);
-        var overflowHandledValue = this.HandleValueOverflow(value);
-        var paddedValue = this.PadValue(overflowHandledValue);
+        var value = GetObjectPropertyValue(item);
+        var overflowHandledValue = HandleValueOverflow(value);
+        var paddedValue = PadValue(overflowHandledValue);
         return paddedValue;
     }
 
     private string GetObjectPropertyValue(object item)
     {
-        var propertyValue = this.property.PropertyInfo.GetValue(item, null);
+        var propertyValue = _property.PropertyInfo.GetValue(item, null);
         if (propertyValue is null)
         {
             return string.Empty;
         }
 
-        if (string.IsNullOrWhiteSpace(this.property.ColumnOptions.StringFormat))
+        if (string.IsNullOrWhiteSpace(_property.ColumnOptions.StringFormat))
         {
             return propertyValue.ToString();
         }
 
-        var format = "{0:" + this.property.ColumnOptions.StringFormat.Trim() + "}";
+        var format = "{0:" + _property.ColumnOptions.StringFormat.Trim() + "}";
         return string.Format(format, propertyValue);
     }
 
     private string HandleValueOverflow(string value)
     {
-        var width = this.property.ColumnOptions.Width;
+        var width = _property.ColumnOptions.Width;
         if (value.Length <= width)
         {
             return value;
         }
 
-        if (this.property.ColumnOptions.OverflowMode == FixedColumnOverflow.Throw)
+        if (_property.ColumnOptions.OverflowMode == FixedColumnOverflow.Throw)
         {
-            var propertyName = this.property.PropertyInfo.Name;
+            var propertyName = _property.PropertyInfo.Name;
             throw new FixedOverflowException(propertyName, width, value);
         }
 
@@ -55,7 +55,7 @@ internal sealed class FixedPropertyWriter
     }
 
     private string PadValue(string value)
-        => this.property.ColumnOptions.Alignment == FixedColumnAlignment.Left
-            ? value.PadRight(this.property.ColumnOptions.Width, this.property.ColumnOptions.PaddingCharacter)
-            : value.PadLeft(this.property.ColumnOptions.Width, this.property.ColumnOptions.PaddingCharacter);
+        => _property.ColumnOptions.Alignment == FixedColumnAlignment.Left
+            ? value.PadRight(_property.ColumnOptions.Width, _property.ColumnOptions.PaddingCharacter)
+            : value.PadLeft(_property.ColumnOptions.Width, _property.ColumnOptions.PaddingCharacter);
 }

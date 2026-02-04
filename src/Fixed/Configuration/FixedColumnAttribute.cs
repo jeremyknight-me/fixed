@@ -13,11 +13,11 @@ public sealed class FixedColumnAttribute(int width) : Attribute, IFixedColumnOpt
     public IFixedColumnOptions ToOptions()
         => new FixedColumnOptions
         {
-            Alignment = this.Alignment,
-            Order = this.Order,
-            PaddingCharacter = this.PaddingCharacter,
-            OverflowMode = this.OverflowMode,
-            StringFormat = this.StringFormat,
-            Width = this.Width
+            Alignment = Alignment,
+            Order = Order,
+            PaddingCharacter = PaddingCharacter,
+            OverflowMode = OverflowMode,
+            StringFormat = StringFormat,
+            Width = Width
         };
 }
