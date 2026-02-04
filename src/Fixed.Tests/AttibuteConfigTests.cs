@@ -1,6 +1,4 @@
-﻿using JK.Fixed.Tests.TestUtils;
-
-namespace JK.Fixed.Tests;
+﻿namespace JK.Fixed.Tests;
 
 public class AttibuteConfigTests
 {
@@ -8,8 +6,8 @@ public class AttibuteConfigTests
     public void AttributeConfig_Should_Read_Fixed_Text()
     {
         List<string> lines = ["FalseAB2024-03-201234 4.30"];
-        IEnumerable<MappedTester> items = FixedSerializer.Deserialize<MappedTester>(lines);
-        MappedTester item = Assert.Single(items);
+        IEnumerable<SampleObject> items = FixedSerializer.Deserialize<SampleObject>(lines);
+        SampleObject item = Assert.Single(items);
         Assert.False(item.One);
         Assert.Equal("AB", item.Two);
         Assert.Equal(DateTime.Parse("2024-03-20"), item.Three);
@@ -20,8 +18,8 @@ public class AttibuteConfigTests
     [Fact]
     public void AttributeConfig_Should_Write_Fixed_Text()
     {
-        List<MappedTester> items = [
-            new MappedTester
+        List<SampleObject> items = [
+            new SampleObject
             {
                 One = false,
                 Two = "AB",

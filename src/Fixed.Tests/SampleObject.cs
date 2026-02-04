@@ -1,8 +1,8 @@
 ﻿using JK.Fixed.Configuration;
 
-namespace JK.Fixed.Tests.TestUtils;
+namespace JK.Fixed.Tests;
 
-public class MappedTester
+public class SampleObject
 {
     [FixedColumn(5)]
     public bool One { get; set; }
