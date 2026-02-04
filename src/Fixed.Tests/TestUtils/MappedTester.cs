@@ -1,4 +1,4 @@
-﻿using JK.Fixed.Attributes;
+﻿using JK.Fixed.Configuration;
 
 namespace JK.Fixed.Tests.TestUtils;
 

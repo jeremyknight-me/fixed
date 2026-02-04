@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using JK.Fixed.Configuration;
 
 namespace JK.Fixed;
 

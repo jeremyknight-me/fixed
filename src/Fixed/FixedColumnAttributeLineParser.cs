@@ -1,29 +1,25 @@
 ﻿using System.Reflection;
 
-namespace JK.Fixed.Readers;
+namespace JK.Fixed;
 
-internal sealed class FixedLineReader<T> : FixedReaderBase
+internal sealed class FixedColumnAttributeLineParser<T>
+    where T : new()
 {
-    public FixedLineReader()
+    private readonly FixedProperty[] _fixedProperties;
+
+    public FixedColumnAttributeLineParser()
     {
-        this.SetFixedColumnProperties(typeof(T));
+        _fixedProperties = typeof(T).ToFixedColumnProperties();
     }
 
-    public IEnumerable<T> Read(IEnumerable<string> lines)
+    public T Parse(string line)
     {
-        foreach (var line in lines)
-        {
-            yield return this.ParseLine(line, Activator.CreateInstance<T>());
-        }
-    }
-
-    private T ParseLine(string line, T entity)
-    {
+        T entity = new();
         var linePosition = 0;
-        foreach (var property in this.FixedProperties)
+        foreach (FixedProperty property in _fixedProperties)
         {
-            var columnValue = this.GetColumnStringValue(line, linePosition, property);
-            var convertedValue = this.ConvertToPropertyType(property, columnValue);
+            var columnValue = GetColumnStringValue(line, linePosition, property);
+            var convertedValue = ConvertToPropertyType(property, columnValue);
             property.PropertyInfo.SetValue(entity, convertedValue, null);
             linePosition += property.ColumnOptions.Width;
         }
@@ -34,20 +30,20 @@ internal sealed class FixedLineReader<T> : FixedReaderBase
     {
         var width = property.ColumnOptions.Width;
         return linePosition + width > line.Length
-            ? line.Substring(linePosition)
+            ? line[linePosition..]
             : line.Substring(linePosition, width);
     }
 
     private object ConvertToPropertyType(FixedProperty property, string memberValue)
     {
-        var type = property.PropertyInfo.PropertyType;
-        var nullable = this.IsNullable(type);
+        Type type = property.PropertyInfo.PropertyType;
+        var nullable = IsNullable(type);
         if (nullable && string.IsNullOrWhiteSpace(memberValue))
         {
             return null;
         }
 
-        if (this.IsGenericNullable(type))
+        if (IsGenericNullable(type))
         {
             type = Nullable.GetUnderlyingType(type);
         }
@@ -55,8 +51,8 @@ internal sealed class FixedLineReader<T> : FixedReaderBase
         memberValue = memberValue.Trim(property.ColumnOptions.PaddingCharacter);
         return type switch
         {
-            var t when t == typeof(string) => memberValue,
-            var t when this.IsParsable(t) => this.ParseToType(t, memberValue),
+            Type t when t == typeof(string) => memberValue,
+            Type t when IsParsable(t) => ParseToType(t, memberValue),
             _ => memberValue
         };
     }
@@ -64,8 +60,8 @@ internal sealed class FixedLineReader<T> : FixedReaderBase
     private bool IsNullable(Type type)
         => type switch
         {
-            var t when !t.IsValueType => true, // ref-type
-            var t when this.IsGenericNullable(t) => true, // Nullable<T>
+            Type t when !t.IsValueType => true, // ref-type
+            Type t when IsGenericNullable(t) => true, // Nullable<T>
             _ => false // value-type
         };
 
@@ -78,7 +74,7 @@ internal sealed class FixedLineReader<T> : FixedReaderBase
 
     public object ParseToType(Type type, string s)
     {
-        var query =
+        IEnumerable<MethodInfo> query =
                 from m in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 let parameters = m.GetParameters()
                 where
@@ -87,10 +83,9 @@ internal sealed class FixedLineReader<T> : FixedReaderBase
                     && parameters[0].ParameterType == typeof(string)
                     && parameters[1].ParameterType == typeof(IFormatProvider)
                 select m;
-        var parseMethodInfo = query.FirstOrDefault();
+        MethodInfo parseMethodInfo = query.FirstOrDefault();
         return parseMethodInfo is null
             ? default
             : parseMethodInfo.Invoke(null, [s, null]);
-        
     }
 }
