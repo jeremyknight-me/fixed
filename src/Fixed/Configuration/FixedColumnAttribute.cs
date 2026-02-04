@@ -1,4 +1,4 @@
-﻿namespace JK.Fixed.Attributes;
+﻿namespace JK.Fixed.Configuration;
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
 public sealed class FixedColumnAttribute(int width) : Attribute, IFixedColumnOptions

@@ -8,7 +8,7 @@ public class AttibuteConfigTests
     public void AttributeConfig_Should_Read_Fixed_Text()
     {
         List<string> lines = ["FalseAB2024-03-201234 4.30"];
-        var items = FixedReader.FromLines<MappedTester>(lines);
+        var items = FixedSerializer.Deserialize<MappedTester>(lines);
         var item = Assert.Single(items);
         Assert.False(item.One);
         Assert.Equal("AB", item.Two);
@@ -31,7 +31,7 @@ public class AttibuteConfigTests
             }
         ];
 
-        var lines = FixedWriter.ToLines(items);
+        var lines = FixedSerializer.Serialize(items);
         var line = Assert.Single(lines);
         Assert.Equal("FalseAB2024-03-201234 4.30", line);
     }   

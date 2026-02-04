@@ -1,26 +1,22 @@
 ﻿using System.Reflection;
 
-namespace JK.Fixed.Readers;
+namespace JK.Fixed;
 
-internal sealed class FixedLineReader<T> : FixedReaderBase
+internal sealed class FixedColumnAttributeLineParser<T>
+    where T : new()
 {
-    public FixedLineReader()
+    private readonly FixedProperty[] fixedProperties;
+
+    public FixedColumnAttributeLineParser()
     {
-        this.SetFixedColumnProperties(typeof(T));
+        this.fixedProperties = typeof(T).ToFixedColumnProperties();
     }
 
-    public IEnumerable<T> Read(IEnumerable<string> lines)
+    public T Parse(string line)
     {
-        foreach (var line in lines)
-        {
-            yield return this.ParseLine(line, Activator.CreateInstance<T>());
-        }
-    }
-
-    private T ParseLine(string line, T entity)
-    {
+        T entity = new();
         var linePosition = 0;
-        foreach (var property in this.FixedProperties)
+        foreach (var property in this.fixedProperties)
         {
             var columnValue = this.GetColumnStringValue(line, linePosition, property);
             var convertedValue = this.ConvertToPropertyType(property, columnValue);
@@ -34,7 +30,7 @@ internal sealed class FixedLineReader<T> : FixedReaderBase
     {
         var width = property.ColumnOptions.Width;
         return linePosition + width > line.Length
-            ? line.Substring(linePosition)
+            ? line[linePosition..]
             : line.Substring(linePosition, width);
     }
 
@@ -91,6 +87,5 @@ internal sealed class FixedLineReader<T> : FixedReaderBase
         return parseMethodInfo is null
             ? default
             : parseMethodInfo.Invoke(null, [s, null]);
-        
     }
 }

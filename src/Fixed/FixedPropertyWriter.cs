@@ -1,12 +1,18 @@
-﻿using JK.Fixed.Exceptions;
+﻿using JK.Fixed.Configuration;
+using JK.Fixed.Exceptions;
 
-namespace JK.Fixed.Writers;
+namespace JK.Fixed;
 
-internal sealed class FixedPropertyWriter(FixedProperty fixedProperty)
+internal sealed class FixedPropertyWriter
 {
-    private readonly FixedProperty property = fixedProperty;
+    private readonly FixedProperty property;
 
-    public string Write<T>(T item)
+    public FixedPropertyWriter(FixedProperty fixedProperty)
+    {
+        this.property = fixedProperty;
+    }
+
+    public string Write(object item)
     {
         var value = this.GetObjectPropertyValue(item);
         var overflowHandledValue = this.HandleValueOverflow(value);
@@ -14,7 +20,7 @@ internal sealed class FixedPropertyWriter(FixedProperty fixedProperty)
         return paddedValue;
     }
 
-    private string GetObjectPropertyValue<T>(T item)
+    private string GetObjectPropertyValue(object item)
     {
         var propertyValue = this.property.PropertyInfo.GetValue(item, null);
         if (propertyValue is null)
