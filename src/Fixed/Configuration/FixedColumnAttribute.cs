@@ -1,7 +1,7 @@
 ﻿namespace JK.Fixed.Configuration;
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-public sealed class FixedColumnAttribute(int width) : Attribute, IFixedColumnOptions
+public sealed class FixedColumnAttribute(int width) : Attribute
 {
     public int Width { get; } = width;
     public FixedColumnAlignment Alignment { get; init; } = FixedColumnAlignment.Left;
@@ -10,8 +10,8 @@ public sealed class FixedColumnAttribute(int width) : Attribute, IFixedColumnOpt
     public char PaddingCharacter { get; init; } = ' ';
     public string StringFormat { get; init; }
 
-    public IFixedColumnOptions ToOptions()
-        => new FixedColumnOptions
+    public FixedColumnOptions ToOptions()
+        => new()
         {
             Alignment = Alignment,
             Order = Order,

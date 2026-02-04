@@ -1,6 +1,6 @@
 ﻿namespace JK.Fixed.Configuration;
 
-public sealed class FixedColumnOptions : IFixedColumnOptions
+public sealed class FixedColumnOptions
 {
     public int Width { get; init; }
     public FixedColumnAlignment Alignment { get; init; } = FixedColumnAlignment.Left;
