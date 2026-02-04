@@ -1,7 +1,8 @@
 ﻿using JK.Fixed.Configuration;
 
-namespace JK.Fixed.Tests;
+namespace JK.Fixed.SourceGenerators.Tests;
 
+[FixedSerializable]
 internal class SampleObject
 {
     [FixedColumn(5)]

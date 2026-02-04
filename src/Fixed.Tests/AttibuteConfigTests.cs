@@ -32,5 +32,5 @@ public class AttibuteConfigTests
         IEnumerable<string> lines = FixedSerializer.Serialize(items);
         var line = Assert.Single(lines);
         Assert.Equal("FalseAB2024-03-201234 4.30", line);
-    }   
+    }
 }
