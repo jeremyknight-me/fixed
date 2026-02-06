@@ -3,7 +3,7 @@
 namespace JK.Fixed.SourceGenerators.Tests;
 
 [FixedSerializable]
-internal class SampleObject
+public sealed class SampleObject
 {
     [FixedColumn(5)]
     public bool One { get; set; }
