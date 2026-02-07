@@ -2,6 +2,7 @@
 
 namespace JK.Fixed.Tests;
 
+[FixedSerializable]
 internal class SampleObject
 {
     [FixedColumn(5)]

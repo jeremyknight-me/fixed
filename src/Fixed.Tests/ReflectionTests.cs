@@ -3,7 +3,7 @@
 public class ReflectionTests
 {
     [Fact]
-    public void AttributeConfig_Should_Read_Fixed_Text()
+    public void Reflection_Should_Read_Fixed_Text()
     {
         List<string> lines = ["FalseAB2024-03-201234 4.30"];
         IEnumerable<SampleObject> items = FixedSerializer.Deserialize<SampleObject>(lines);
@@ -16,7 +16,7 @@ public class ReflectionTests
     }
 
     [Fact]
-    public void AttributeConfig_Should_Write_Fixed_Text()
+    public void Reflection_Should_Write_Fixed_Text()
     {
         List<SampleObject> items = [
             new SampleObject
