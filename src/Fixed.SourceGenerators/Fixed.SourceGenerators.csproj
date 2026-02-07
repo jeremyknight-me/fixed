@@ -18,8 +18,4 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Fixed.Configuration\Fixed.Configuration.csproj" />
-  </ItemGroup>
-
 </Project>

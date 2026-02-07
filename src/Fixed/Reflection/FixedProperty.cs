@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using JK.Fixed.Configuration;
 
-namespace JK.Fixed;
+namespace JK.Fixed.Reflection;
 
 public sealed class FixedProperty
 {

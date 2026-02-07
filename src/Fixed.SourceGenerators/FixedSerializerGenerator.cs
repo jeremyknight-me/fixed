@@ -11,16 +11,6 @@ public sealed class FixedSerializerGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        context
-            .RegisterPostInitializationOutput(i =>
-            {
-                i.AddEmbeddedAttributeDefinition();
-                i.AddSource(
-                    "FixedSerializableAttribute.g.cs",
-                    SourceText.From(FixedSerializableAttributeFactory.SourceCode, Encoding.UTF8)
-                );
-            });
-
         IncrementalValuesProvider<ClassTypeInfo> classDeclaration = context.SyntaxProvider
             .ForAttributeWithMetadataName($"{generatorNamespace}.FixedSerializableAttribute",
                  predicate: static (s, _) => true,

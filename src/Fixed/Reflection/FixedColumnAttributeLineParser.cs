@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace JK.Fixed;
+namespace JK.Fixed.Reflection;
 
 internal sealed class FixedColumnAttributeLineParser<T>
     where T : new()

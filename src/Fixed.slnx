@@ -4,8 +4,6 @@
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
-  <Project Path="Fixed.Configuration/Fixed.Configuration.csproj" Id="5f347709-aaa8-4a96-a4d3-175c52662a28" />
-  <Project Path="Fixed.SourceGenerators.Tests/Fixed.SourceGenerators.Tests.csproj" Id="dc5a4536-dd40-45f5-81f3-02182aa60248" />
   <Project Path="Fixed.SourceGenerators/Fixed.SourceGenerators.csproj" Id="73a231df-3ee6-419b-a95f-11bde89791ab" />
   <Project Path="Fixed.Tests/Fixed.Tests.csproj" />
   <Project Path="Fixed/Fixed.csproj" />

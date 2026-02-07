@@ -1,6 +1,6 @@
 ﻿namespace JK.Fixed.Tests;
 
-public class AttibuteConfigTests
+public class ReflectionTests
 {
     [Fact]
     public void AttributeConfig_Should_Read_Fixed_Text()
