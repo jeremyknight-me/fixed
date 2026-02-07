@@ -5,7 +5,7 @@ public class AttributeConfigTests
     [Fact]
     public void AttributeConfig_Should_Read_Fixed_Text()
     {
-        SampleObjectFixedSerializer serializer = new();
+        //var result = SampleObjectFixedSerializer.Deserialize([]);
 
         Assert.Fail();
 
@@ -22,7 +22,7 @@ public class AttributeConfigTests
     [Fact]
     public void AttributeConfig_Should_Write_Fixed_Text()
     {
-        SampleObjectFixedSerializer serializer = new();
+        //var result = SampleObjectFixedSerializer.Serialize([]);
 
         Assert.Fail();
 
