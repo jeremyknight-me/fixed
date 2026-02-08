@@ -30,29 +30,46 @@ public sealed class FixedSerializerGenerator : IIncrementalGenerator
             : typeSymbol.ContainingNamespace.ToString();
         var name = typeSymbol.Name;
 
-
         var sb = new StringBuilder();
         // Initialize class
         if (!string.IsNullOrEmpty(ns))
         {
-            sb.AppendLine("");
+            sb.AppendEmptyLine();
             sb.AppendLine($"namespace {ns};");
-            sb.AppendLine("");
+            sb.AppendEmptyLine();
         }
 
-        var className = $"{name}FixedSerializer";
+        var serializerClassName = $"{name}FixedSerializer";
 
-        sb.Append(
-            $$"""
-            public class {{className}}
-            {
-            }
-            """);
+        sb.AppendLine($"public static class {serializerClassName}");
+        sb.AppendOpenCurlyLine(); // start class
+
+        sb.AppendIndent();
+        sb.AppendLine($"public static IEnumerable<{name}> Deserialize(IEnumerable<string> lines)");
+        sb.AppendOpenCurlyLine(1); // start Deserialize
+
+        sb.AppendIndent(2);
+        sb.AppendLine("foreach (var line in lines)");
+        sb.AppendOpenCurlyLine(2); // start foreach
+        sb.AppendIndent(3);
+        sb.AppendLine("yield return default;");
+        sb.AppendCloseCurlyLine(2); // end foreach
+        sb.AppendCloseCurlyLine(1); // end Deserialize
+
+        sb.AppendEmptyLine();
+
+        sb.AppendIndent();
+        sb.AppendLine($"public static IEnumerable<string> Serialize(IEnumerable<{name}> items)");
+        sb.AppendOpenCurlyLine(1); // start Serialize
+        sb.AppendIndent(2);
+        sb.AppendLine($"return [];");
+        sb.AppendCloseCurlyLine(1); // end Serialize
+
+        sb.AppendCloseCurlyLine(); // end class
 
         context.AddSource(
-            $"{generatorNamespace}.{className}.g.cs",
+            $"{generatorNamespace}.{serializerClassName}.g.cs",
             SourceText.From(sb.ToString(), Encoding.UTF8)
         );
     }
 }
-
