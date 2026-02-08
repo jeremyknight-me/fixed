@@ -30,7 +30,7 @@ internal sealed class FixedColumnAttributeLineParser<T>
     {
         var width = property.ColumnOptions.Width;
         return linePosition + width > line.Length
-            ? line[linePosition..]
+            ? line.Substring(linePosition)
             : line.Substring(linePosition, width);
     }
 
@@ -49,12 +49,12 @@ internal sealed class FixedColumnAttributeLineParser<T>
         }
 
         memberValue = memberValue.Trim(property.ColumnOptions.PaddingCharacter);
-        return type switch
+        if (type == typeof(string))
         {
-            Type t when t == typeof(string) => memberValue,
-            Type t when IsParsable(t) => ParseToType(t, memberValue),
-            _ => memberValue
-        };
+            return memberValue;
+        }
+
+        return ParseToType(type, memberValue);
     }
 
     private bool IsNullable(Type type)
@@ -68,21 +68,18 @@ internal sealed class FixedColumnAttributeLineParser<T>
     private bool IsGenericNullable(Type type)
         => Nullable.GetUnderlyingType(type) != null;
 
-    private bool IsParsable(Type type)
-        => type.GetInterfaces()
-            .Any(c => c.IsGenericType && c.GetGenericTypeDefinition() == typeof(IParsable<>));
-
+    
     public object ParseToType(Type type, string s)
     {
         IEnumerable<MethodInfo> query =
-                from m in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                let parameters = m.GetParameters()
-                where
-                    m.Name == "Parse"
-                    && parameters.Length == 2
-                    && parameters[0].ParameterType == typeof(string)
-                    && parameters[1].ParameterType == typeof(IFormatProvider)
-                select m;
+            from m in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
+            let parameters = m.GetParameters()
+            where
+                m.Name == "Parse"
+                && parameters.Length == 2
+                && parameters[0].ParameterType == typeof(string)
+                && parameters[1].ParameterType == typeof(IFormatProvider)
+            select m;
         MethodInfo parseMethodInfo = query.FirstOrDefault();
         return parseMethodInfo is null
             ? default
