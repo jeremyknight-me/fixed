@@ -25,7 +25,7 @@ internal static class DeserializeMethodHelpers
             var width = p.Width;
             var assign = p.TypeName switch
             {
-                "string" => $"{p.Name} = span.Slice({start}, {width}).ToString(),",
+                "string" => $"{p.Name} = span.Slice({start}, {width}).ToString().Trim(),",
                 "bool" or "System.Boolean" => $"{p.Name} = bool.Parse(span.Slice({start}, {width})),",
                 "int" or "System.Int32" => $"{p.Name} = int.Parse(span.Slice({start}, {width})),",
                 "decimal" or "System.Decimal" => $"{p.Name} = decimal.Parse(span.Slice({start}, {width})),",
