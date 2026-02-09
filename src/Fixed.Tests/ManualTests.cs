@@ -1,5 +1,7 @@
 ﻿namespace JK.Fixed.Tests;
 
+// manually implement fixed width serializer for SampleObject
+// meant as an example of what the generated code would look like
 public class ManualTests
 {
     [Fact]

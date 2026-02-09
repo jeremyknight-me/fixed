@@ -26,13 +26,13 @@ internal static class StringBuilderExtensions
         sb.AppendLine("{");
     }
 
-    internal static void AppendIndent(this StringBuilder sb, int count = 1) => sb.Append(new string(' ', count * 4));
+    internal static void AppendIndent(this StringBuilder sb, int count = 1)
+        => sb.Append(new string(' ', count * 4));
 
     internal static void AppendNamespace(this StringBuilder sb, string ns)
     {
         if (!string.IsNullOrEmpty(ns))
         {
-            sb.AppendEmptyLine();
             sb.AppendLine($"namespace {ns};");
             sb.AppendEmptyLine();
         }

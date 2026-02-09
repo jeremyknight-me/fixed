@@ -1,7 +1,6 @@
 ﻿using JK.Fixed.Configuration;
-using JK.Fixed.Reflection;
 
-namespace JK.Fixed;
+namespace JK.Fixed.Reflection;
 
 internal static class TypeExtensions
 {
