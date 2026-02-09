@@ -51,7 +51,7 @@ internal sealed class FixedColumnAttributeLineParser<T>
         memberValue = memberValue.Trim(property.ColumnOptions.PaddingCharacter);
         if (type == typeof(string))
         {
-            return memberValue;
+            return memberValue.Trim();
         }
 
         return ParseToType(type, memberValue);
@@ -76,13 +76,12 @@ internal sealed class FixedColumnAttributeLineParser<T>
             let parameters = m.GetParameters()
             where
                 m.Name == "Parse"
-                && parameters.Length == 2
+                && parameters.Length == 1
                 && parameters[0].ParameterType == typeof(string)
-                && parameters[1].ParameterType == typeof(IFormatProvider)
             select m;
         MethodInfo parseMethodInfo = query.FirstOrDefault();
         return parseMethodInfo is null
             ? default
-            : parseMethodInfo.Invoke(null, [s, null]);
+            : parseMethodInfo.Invoke(null, [s]);
     }
 }
