@@ -49,12 +49,12 @@ internal static class NamedTypeSymbolExtensions
 
     private static char GetCharByName(this Dictionary<string, TypedConstant> named, string name, char defaultValue = ' ')
         => named.TryGetValue(name, out TypedConstant pc) && pc.Value != null
-            ? (char)pc.Value!
+            ? (char)pc.Value
             : defaultValue;
 
     private static int GetIntByName(this Dictionary<string, TypedConstant> named, string name, int defaultValue = 0)
         => named.TryGetValue(name, out TypedConstant o) && o.Value != null
-            ? (int)o.Value!
+            ? (int)o.Value
             : defaultValue;
 
     private static string GetStringByName(this Dictionary<string, TypedConstant> named, string name, string defaultValue = null)

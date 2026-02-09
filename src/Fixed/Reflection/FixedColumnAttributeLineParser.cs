@@ -12,7 +12,7 @@ internal sealed class FixedColumnAttributeLineParser<T>
         _fixedProperties = typeof(T).ToFixedColumnProperties();
     }
 
-    public T Parse(string line)
+    internal T Parse(string line)
     {
         T entity = new();
         var linePosition = 0;
@@ -68,8 +68,8 @@ internal sealed class FixedColumnAttributeLineParser<T>
     private bool IsGenericNullable(Type type)
         => Nullable.GetUnderlyingType(type) != null;
 
-    
-    public object ParseToType(Type type, string s)
+
+    private object ParseToType(Type type, string s)
     {
         IEnumerable<MethodInfo> query =
             from m in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
