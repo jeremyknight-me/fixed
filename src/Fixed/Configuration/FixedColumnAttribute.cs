@@ -1,6 +1,6 @@
 ﻿namespace JK.Fixed.Configuration;
 
-[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public sealed class FixedColumnAttribute(int width) : Attribute
 {
     public int Width { get; } = width;
