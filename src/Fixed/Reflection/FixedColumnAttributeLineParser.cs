@@ -71,17 +71,37 @@ internal sealed class FixedColumnAttributeLineParser<T>
 
     private object ParseToType(Type type, string s)
     {
-        IEnumerable<MethodInfo> query =
-            from m in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
+        MethodInfo[] methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public);
+
+        // Look for Parse(string, IFormatProvider)
+        MethodInfo parseWithProvider = (
+            from m in methods
+            let parameters = m.GetParameters()
+            where
+                m.Name == "Parse"
+                && parameters.Length == 2
+                && parameters[0].ParameterType == typeof(string)
+                && parameters[1].ParameterType == typeof(IFormatProvider)
+            select m)
+            .FirstOrDefault();
+        if (parseWithProvider != null)
+        {
+            return parseWithProvider.Invoke(null, [s, System.Globalization.CultureInfo.InvariantCulture]);
+        }
+
+        // Fallback to Parse(string)
+        MethodInfo parse = (
+            from m in methods
             let parameters = m.GetParameters()
             where
                 m.Name == "Parse"
                 && parameters.Length == 1
                 && parameters[0].ParameterType == typeof(string)
-            select m;
-        MethodInfo parseMethodInfo = query.FirstOrDefault();
-        return parseMethodInfo is null
+            select m)
+            .FirstOrDefault();
+
+        return parse is null
             ? default
-            : parseMethodInfo.Invoke(null, [s]);
+            : parse.Invoke(null, [s]);
     }
 }

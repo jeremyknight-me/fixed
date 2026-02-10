@@ -20,11 +20,11 @@ file static class Manual_SampleObjectFixedSerializer
             ReadOnlySpan<char> span = line.AsSpan();
             yield return new SampleObject
             {
-                One = bool.Parse(span.Slice(0, 5)),
-                Two = span.Slice(5, 2).ToString(),
-                Three = DateTime.ParseExact(span.Slice(7, 10), "yyyy-MM-dd", null),
-                Four = int.Parse(span.Slice(17, 4)),
-                Five = decimal.Parse(span.Slice(21, 5))
+                One = bool.Parse(span.Slice(0, 5).Trim('_')),
+                Two = span.Slice(5, 2).ToString().Trim('_'),
+                Three = DateTime.ParseExact(span.Slice(7, 10).Trim('_'), "yyyy-MM-dd", null),
+                Four = int.Parse(span.Slice(17, 4).Trim('_')),
+                Five = decimal.Parse(span.Slice(21, 5).Trim('_'))
             };
         }
     }
@@ -51,7 +51,7 @@ file static class Manual_SampleObjectFixedSerializer
             text = text.Substring(0, width);
         }
 
-        return text.PadRight(width, ' ');
+        return text.PadRight(width, '_');
     }
 
     private static string SerializeTwo(string value)
@@ -59,10 +59,10 @@ file static class Manual_SampleObjectFixedSerializer
         var width = 2;
         if (value.Length > width)
         {
-            throw new JK.Fixed.Exceptions.FixedOverflowException("Two", width, value);
+            throw new Exceptions.FixedOverflowException("Two", width, value);
         }
 
-        return value.PadRight(width, ' ');
+        return value.PadRight(width, '_');
     }
 
     private static string SerializeThree(DateTime value)
@@ -73,20 +73,20 @@ file static class Manual_SampleObjectFixedSerializer
         {
             text = text.Substring(0, width);
         }
-        return text.PadRight(width, ' ');
+        return text.PadRight(width, '_');
     }
 
     private static string SerializeFour(int value)
     {
         var width = 4;
         var text = value.ToString();
-        return text.PadLeft(width, ' ');
+        return text.PadLeft(width, '_');
     }
 
     private static string SerializeFive(decimal value)
     {
         var width = 5;
         var text = value.ToString("N2");
-        return text.PadLeft(width, ' ');
+        return text.PadLeft(width, '_');
     }
 }

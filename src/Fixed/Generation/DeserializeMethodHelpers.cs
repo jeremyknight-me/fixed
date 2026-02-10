@@ -23,16 +23,17 @@ internal static class DeserializeMethodHelpers
         foreach (PropertyMetadata p in props)
         {
             var width = p.Width;
+            var padding = p.PaddingCharacter;
             var assign = p.TypeName switch
             {
-                "string" => $"{p.Name} = span.Slice({start}, {width}).ToString().Trim(),",
-                "bool" or "System.Boolean" => $"{p.Name} = bool.Parse(span.Slice({start}, {width})),",
-                "int" or "System.Int32" => $"{p.Name} = int.Parse(span.Slice({start}, {width})),",
-                "decimal" or "System.Decimal" => $"{p.Name} = decimal.Parse(span.Slice({start}, {width})),",
+                "string" => $"{p.Name} = span.Slice({start}, {width}).ToString().Trim('{padding}'),",
+                "bool" or "System.Boolean" => $"{p.Name} = bool.Parse(span.Slice({start}, {width}).Trim('{padding}')),",
+                "int" or "System.Int32" => $"{p.Name} = int.Parse(span.Slice({start}, {width}).Trim('{padding}')),",
+                "decimal" or "System.Decimal" => $"{p.Name} = decimal.Parse(span.Slice({start}, {width}).Trim('{padding}')),",
                 "DateTime" or "System.DateTime" => string.IsNullOrEmpty(p.StringFormat)
-                    ? $"{p.Name} = DateTime.Parse(span.Slice({start}, {width})),"
-                    : $"{p.Name} = DateTime.ParseExact(span.Slice({start}, {width}), \"{p.StringFormat}\", null),",
-                _ => $"{p.Name} = {p.TypeName}.Parse(span.Slice({start}, {width}))," // fallback to calling Parse on type
+                    ? $"{p.Name} = DateTime.Parse(span.Slice({start}, {width}).Trim('{padding}')),"
+                    : $"{p.Name} = DateTime.ParseExact(span.Slice({start}, {width}).Trim('{padding}'), \"{p.StringFormat}\", null),",
+                _ => $"{p.Name} = {p.TypeName}.Parse(span.Slice({start}, {width}).Trim('{padding}'))," // fallback to calling Parse on type
             };
             sb.AppendIndent(4);
             sb.AppendLine(assign);

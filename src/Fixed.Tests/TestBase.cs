@@ -9,8 +9,8 @@ public abstract class TestBase
     public void Should_Read_Fixed_Text()
     {
         List<string> lines = [
-            "FalseAB2024-03-201234 4.30",
-            "True CD2025-03-205678 1.23"
+            "FalseAB2024-03-201234_4.30",
+            "True_CD2025-03-205678_1.23"
         ];
         IEnumerable<SampleObject> items = Deserialize(lines);
         Assert.Collection(items,
@@ -55,7 +55,7 @@ public abstract class TestBase
         ];
         IEnumerable<string> lines = Serialize(items);
         Assert.Collection(lines,
-            l => Assert.Equal("FalseAB2024-03-201234 4.30", l),
-            l => Assert.Equal("True CD2025-03-205678 1.23", l));
+            l => Assert.Equal("FalseAB2024-03-201234_4.30", l),
+            l => Assert.Equal("True_CD2025-03-205678_1.23", l));
     }
 }
