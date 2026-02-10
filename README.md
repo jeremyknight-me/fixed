@@ -76,6 +76,17 @@ var people = PersonFixedSerializer.Deserialize(File.ReadLines("people.txt"));
 var lines = PersonFixedSerializer.Serialize(people);
 ```
 
+### FixedColumnAttribute Options
+
+The `FixedColumnAttribute` is used to configure how a property maps to a fixed-width column. The attribute requires a `width` and exposes the following options:
+
+- `Width` (int, required) - The column width specified via the attribute constructor.
+- `Alignment` (`FixedColumnAlignment`, optional, default: `FixedColumnAlignment.Left`) - How the value is aligned within the column.
+- `Order` (int, optional) - Column ordering when writing/reading multiple properties.
+- `OverflowMode` (`FixedColumnOverflow`, optional, default: `FixedColumnOverflow.Truncate`) - How values that exceed `Width` are handled.
+- `PaddingCharacter` (char, optional, default: `' '`) - Character used to pad values to `Width`.
+- `StringFormat` (string, optional) - Optional format string applied when converting values to text.
+
 ## Contributing
 
 Contributions are welcome. Please follow these guidelines:
