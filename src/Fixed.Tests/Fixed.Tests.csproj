@@ -1,6 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>JK.Fixed.Tests</AssemblyName>
     <RootNamespace>JK.Fixed.Tests</RootNamespace>
     <OutputType>Exe</OutputType>
@@ -21,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Fixed\Fixed.csproj" />
+    <ProjectReference Include="..\Fixed\Fixed.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
   </ItemGroup>
 
   <ItemGroup>

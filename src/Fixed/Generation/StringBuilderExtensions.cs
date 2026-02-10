@@ -1,0 +1,40 @@
+﻿using System.Text;
+
+namespace JK.Fixed.Generation;
+
+internal static class StringBuilderExtensions
+{
+    internal static void AppendCloseCurlyLine(this StringBuilder sb, int indentCount = 0)
+    {
+        if (indentCount > 0)
+        {
+            sb.AppendIndent(indentCount);
+        }
+
+        sb.AppendLine("}");
+    }
+
+    internal static void AppendEmptyLine(this StringBuilder sb) => sb.AppendLine("");
+
+    internal static void AppendOpenCurlyLine(this StringBuilder sb, int indentCount = 0)
+    {
+        if (indentCount > 0)
+        {
+            sb.AppendIndent(indentCount);
+        }
+
+        sb.AppendLine("{");
+    }
+
+    internal static void AppendIndent(this StringBuilder sb, int count = 1)
+        => sb.Append(new string(' ', count * 4));
+
+    internal static void AppendNamespace(this StringBuilder sb, string ns)
+    {
+        if (!string.IsNullOrEmpty(ns))
+        {
+            sb.AppendLine($"namespace {ns};");
+            sb.AppendEmptyLine();
+        }
+    }
+}

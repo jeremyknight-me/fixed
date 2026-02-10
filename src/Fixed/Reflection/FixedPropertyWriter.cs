@@ -1,7 +1,7 @@
 ﻿using JK.Fixed.Configuration;
 using JK.Fixed.Exceptions;
 
-namespace JK.Fixed;
+namespace JK.Fixed.Reflection;
 
 internal sealed class FixedPropertyWriter
 {
@@ -51,7 +51,7 @@ internal sealed class FixedPropertyWriter
             throw new FixedOverflowException(propertyName, width, value);
         }
 
-        return value[..width];
+        return value.Substring(0, width);
     }
 
     private string PadValue(string value)

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace JK.Fixed;
+namespace JK.Fixed.Reflection;
 
 internal sealed class FixedColumnAttributeLineParser<T>
     where T : new()
@@ -12,7 +12,7 @@ internal sealed class FixedColumnAttributeLineParser<T>
         _fixedProperties = typeof(T).ToFixedColumnProperties();
     }
 
-    public T Parse(string line)
+    internal T Parse(string line)
     {
         T entity = new();
         var linePosition = 0;
@@ -30,7 +30,7 @@ internal sealed class FixedColumnAttributeLineParser<T>
     {
         var width = property.ColumnOptions.Width;
         return linePosition + width > line.Length
-            ? line[linePosition..]
+            ? line.Substring(linePosition)
             : line.Substring(linePosition, width);
     }
 
@@ -49,12 +49,12 @@ internal sealed class FixedColumnAttributeLineParser<T>
         }
 
         memberValue = memberValue.Trim(property.ColumnOptions.PaddingCharacter);
-        return type switch
+        if (type == typeof(string))
         {
-            Type t when t == typeof(string) => memberValue,
-            Type t when IsParsable(t) => ParseToType(t, memberValue),
-            _ => memberValue
-        };
+            return memberValue.Trim();
+        }
+
+        return ParseToType(type, memberValue);
     }
 
     private bool IsNullable(Type type)
@@ -68,24 +68,40 @@ internal sealed class FixedColumnAttributeLineParser<T>
     private bool IsGenericNullable(Type type)
         => Nullable.GetUnderlyingType(type) != null;
 
-    private bool IsParsable(Type type)
-        => type.GetInterfaces()
-            .Any(c => c.IsGenericType && c.GetGenericTypeDefinition() == typeof(IParsable<>));
 
-    public object ParseToType(Type type, string s)
+    private object ParseToType(Type type, string s)
     {
-        IEnumerable<MethodInfo> query =
-                from m in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                let parameters = m.GetParameters()
-                where
-                    m.Name == "Parse"
-                    && parameters.Length == 2
-                    && parameters[0].ParameterType == typeof(string)
-                    && parameters[1].ParameterType == typeof(IFormatProvider)
-                select m;
-        MethodInfo parseMethodInfo = query.FirstOrDefault();
-        return parseMethodInfo is null
+        MethodInfo[] methods = type.GetMethods(BindingFlags.Static | BindingFlags.Public);
+
+        // Look for Parse(string, IFormatProvider)
+        MethodInfo parseWithProvider = (
+            from m in methods
+            let parameters = m.GetParameters()
+            where
+                m.Name == "Parse"
+                && parameters.Length == 2
+                && parameters[0].ParameterType == typeof(string)
+                && parameters[1].ParameterType == typeof(IFormatProvider)
+            select m)
+            .FirstOrDefault();
+        if (parseWithProvider != null)
+        {
+            return parseWithProvider.Invoke(null, [s, System.Globalization.CultureInfo.InvariantCulture]);
+        }
+
+        // Fallback to Parse(string)
+        MethodInfo parse = (
+            from m in methods
+            let parameters = m.GetParameters()
+            where
+                m.Name == "Parse"
+                && parameters.Length == 1
+                && parameters[0].ParameterType == typeof(string)
+            select m)
+            .FirstOrDefault();
+
+        return parse is null
             ? default
-            : parseMethodInfo.Invoke(null, [s, null]);
+            : parse.Invoke(null, [s]);
     }
 }

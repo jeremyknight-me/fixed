@@ -1,16 +1,26 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <AssemblyName>JK.Fixed</AssemblyName>
-        <RootNamespace>JK.Fixed</RootNamespace>
-        <Version>0.0.1</Version>
-        <Description>A library to aid in reading and writing fixed-width files.</Description>
-        <Tags>fixed-width;flat-file</Tags>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-    </PropertyGroup>
+  <PropertyGroup>
+    <!-- required properties for source generator packages -->
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <!-- additional properties -->
+    <AssemblyName>JK.Fixed</AssemblyName>
+    <RootNamespace>JK.Fixed</RootNamespace>
+    <Version>0.0.1</Version>
+    <Description>A library to aid in reading and writing fixed-width files.</Description>
+    <Tags>fixed-width;flat-file</Tags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <None Include="README.md" Pack="true" PackagePath="\" />
-    </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+  </ItemGroup>
 
 </Project>
