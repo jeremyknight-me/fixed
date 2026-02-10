@@ -18,7 +18,7 @@ This repository contains the library source, the source-generator, tests and exa
 
 ## Installation
 
-Install from NuGet (package id: `JK.Fixed`). Example using the .NET CLI:
+Install from NuGet (package id: `JK.Fixed` coming soon). Example using the .NET CLI:
 
 ```
 dotnet add package JK.Fixed
