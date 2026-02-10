@@ -73,6 +73,7 @@ file static class Manual_SampleObjectFixedSerializer
         {
             text = text.Substring(0, width);
         }
+
         return text.PadRight(width, '_');
     }
 
@@ -80,6 +81,11 @@ file static class Manual_SampleObjectFixedSerializer
     {
         var width = 4;
         var text = value.ToString();
+        if (text.Length > width)
+        {
+            text = text.Substring(0, width);
+        }
+
         return text.PadLeft(width, '_');
     }
 
@@ -87,6 +93,11 @@ file static class Manual_SampleObjectFixedSerializer
     {
         var width = 5;
         var text = value.ToString("N2");
+        if (text.Length > width)
+        {
+            text = text.Substring(0, width);
+        }
+
         return text.PadLeft(width, '_');
     }
 }
